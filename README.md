@@ -8,6 +8,8 @@ There are inital models set up for a Shop application. This repo should be forke
 * Feel free to comment on parts of the submitted PR['s] with any assumptions you feel you have made.
 * Use any external packages you think may help you complete these challenges.
 
+## General code challenges
+
 ### Challenge #1
 * Allow hat's to have a colour
 * Make the brand field on hat's optional and allow for multiple brands
@@ -26,7 +28,10 @@ There are inital models set up for a Shop application. This repo should be forke
 * All users should be able to read the hat, footwear and brand endpoints
 * Allow styles to be editable via the admin panel
 
-### Challenge #4
+
+## User story challenges
+
+### Challenge #1
 * Create a basket endpoint
     * This endpoint should allow a user to buy multiple hats and multiple footwear items in 1 request
     * There should be a total price that sums the price of everything in the basket 
@@ -38,8 +43,6 @@ There are inital models set up for a Shop application. This repo should be forke
         * The time should be returned in isoformat
 * Superusers can see everyones basket books
 
-        
-## Bonus Challenges
 
 ### Bonus Challenge #1 (requires Challenge #4)
 * Create activity tracking 
@@ -48,9 +51,13 @@ There are inital models set up for a Shop application. This repo should be forke
     * Contains a field to tell the user how long it has been since their last booking
         * The duration should be returned in isoformat
 
-### Bonus Challenge #2
+        
+## Bonus Challenges
+
+
+### Bonus Challenge #1
 * The front end has asked for the API to return the JSON output in CamelCase instead of snake_case
 
-### Bonus Challenge #3
+### Bonus Challenge #2
 * Dockerise this application
 
