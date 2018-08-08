@@ -31,7 +31,7 @@ There are inital models set up for a Shop application. This repo should be forke
 
 ## User story challenges
 
-### Challenge #1
+### Challenge #4
 * Create a basket endpoint
     * This endpoint should allow a user to buy multiple hats and multiple footwear items in 1 request
     * There should be a total price that sums the price of everything in the basket 
@@ -44,7 +44,7 @@ There are inital models set up for a Shop application. This repo should be forke
 * Superusers can see everyones basket books
 
 
-### Bonus Challenge #1 (requires Challenge #4)
+### Challenge #5 
 * Create activity tracking 
     * An endpoint that displays all user's bookings
         * This endpoint should return all information about the booking including details about each item booked
