@@ -41,9 +41,19 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework_swagger',
     'django_extensions',
+    'rest_framework.authtoken',
+    'rest_auth',
     'shop',
 
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -28,7 +28,6 @@ main_v1_url_pattern = url(
     r'^v1/',
     include(
         main_v1_api_router.urls,
-        namespace='v1',
     )
 )
 
@@ -39,4 +38,7 @@ urlpatterns = [
         r'^v1/swagger/',
         get_swagger_view(title='Ten Tech Test API v1', patterns=[main_v1_url_pattern])
     ),
+    url(
+        r'v1/auth/', include('rest_auth.urls')
+    )
 ]
