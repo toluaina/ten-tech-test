@@ -37,7 +37,6 @@ class Hat(models.Model):
         (CAP, 'Cap')
     )
     style = models.CharField(_('style'), max_length=3, choices=STYLES)
-    brand = models.ForeignKey(Brand, verbose_name=_('brand'), related_name='hats', null=True)
     brands = models.ManyToManyField(Brand, verbose_name=_('brands'), related_name='new_hats')
     price = MoneyField(max_digits=6, decimal_places=2, default_currency='GBP')
     colour = models.TextField(_('colour'), blank=True, default='')
@@ -58,19 +57,6 @@ class Hat(models.Model):
 
 
 class Footwear(models.Model):
-    OXFORD = 'OXF'
-    DERBY = 'DRB'
-    BROGUE = 'BRG'
-    MONK = 'MNK'
-    BALMORAL = 'BML'
-    STYLES = (
-        (OXFORD, 'Oxford'),
-        (DERBY, 'Derby'),
-        (BROGUE, 'Brogue'),
-        (MONK, 'Monk'),
-        (BALMORAL, 'Balmoral'),
-    )
-    style = models.CharField(_('style'), max_length=3, choices=STYLES, blank=True, default='')
     brand = models.ForeignKey(Brand, verbose_name=_('brand'), related_name='footwear')
     price = MoneyField(max_digits=6, decimal_places=2, default_currency='GBP')
 
