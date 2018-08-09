@@ -27,16 +27,20 @@ class Hat(models.Model):
     TRILBY = 'TBY'
     PANAMA = 'PNM'
     FEZ = 'FEZ'
+    CAP = 'CAP'
     STYLES = (
         (FEDORA, 'Fedora'),
         (TOP_HAT, 'Top Hat'),
         (TRILBY, 'Trilby'),
         (PANAMA, 'Panama'),
         (FEZ, 'Fez'),
+        (CAP, 'Cap')
     )
     style = models.CharField(_('style'), max_length=3, choices=STYLES)
-    brand = models.ForeignKey(Brand, verbose_name=_('brand'), related_name='hats')
+    brand = models.ForeignKey(Brand, verbose_name=_('brand'), related_name='hats', null=True)
+    brands = models.ManyToManyField(Brand, verbose_name=_('brands'), related_name='new_hats')
     price = MoneyField(max_digits=6, decimal_places=2, default_currency='GBP')
+    colour = models.TextField(_('colour'), blank=True, default='')
 
     class Meta:
         verbose_name = 'Hat'
@@ -66,7 +70,7 @@ class Footwear(models.Model):
         (MONK, 'Monk'),
         (BALMORAL, 'Balmoral'),
     )
-    style = models.CharField(_('style'), max_length=3, choices=STYLES)
+    style = models.CharField(_('style'), max_length=3, choices=STYLES, blank=True, default='')
     brand = models.ForeignKey(Brand, verbose_name=_('brand'), related_name='footwear')
     price = MoneyField(max_digits=6, decimal_places=2, default_currency='GBP')
 
@@ -79,6 +83,32 @@ class Footwear(models.Model):
             style_of_footwear=self.style,
             brand=self.brand.name,
             price=self.price,
+        )
+
+    def __str__(self):
+        return self.__unicode__()
+
+
+class FootwearStyle(models.Model):
+    OXFORD = 'OXF'
+    DERBY = 'DRB'
+    BROGUE = 'BRG'
+    MONK = 'MNK'
+    BALMORAL = 'BML'
+    STYLES = (
+        (OXFORD, 'Oxford'),
+        (DERBY, 'Derby'),
+        (BROGUE, 'Brogue'),
+        (MONK, 'Monk'),
+        (BALMORAL, 'Balmoral'),
+    )
+
+    footwear = models.ForeignKey(Footwear, verbose_name=_('footwear'), related_name='styles')
+    style = models.CharField(_('style'), max_length=3, choices=STYLES)
+
+    def __unicode__(self):
+        return '{style_of_footwear}'.format(
+            style_of_footwear=self.style,
         )
 
     def __str__(self):
