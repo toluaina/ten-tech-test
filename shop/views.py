@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from rest_framework.filters import OrderingFilter
+from dry_rest_permissions.generics import DRYPermissions
 from shop.models import Brand, Footwear, Hat, FootwearStyle
 from shop.serializers import (
     BrandSerializer,
@@ -17,6 +17,7 @@ class BrandViewSet(ModelViewSet):
 
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
+    permission_classes = (DRYPermissions,)
 
 
 class FootwearViewSet(ModelViewSet):
@@ -24,12 +25,14 @@ class FootwearViewSet(ModelViewSet):
 
     queryset = Footwear.objects.all().order_by('price')
     serializer_class = FootwearSerializer
+    permission_classes = (DRYPermissions,)
 
 
 class HatViewSet(ModelViewSet):
     """Hat views everything included."""
 
     queryset = Hat.objects.all().order_by('price')
+    permission_classes = (DRYPermissions,)
 
     def get_serializer_class(self):
         """Use NewEventTIMSerializer to create and update."""

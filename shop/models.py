@@ -6,7 +6,19 @@ from djmoney.models.fields import MoneyField
 # Create your models here.
 
 
-class Brand(models.Model):
+class PermissionMixin:
+    @staticmethod
+    def has_write_permission(request):
+        if request.user.is_superuser:
+            return True
+        return False
+
+    @staticmethod
+    def has_read_permission(request):
+        return True
+
+
+class Brand(PermissionMixin, models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
 
@@ -21,7 +33,7 @@ class Brand(models.Model):
         return self.__unicode__()
 
 
-class Hat(models.Model):
+class Hat(PermissionMixin, models.Model):
     FEDORA = 'FED'
     TOP_HAT = 'TOP'
     TRILBY = 'TBY'
@@ -56,7 +68,7 @@ class Hat(models.Model):
         return self.__unicode__()
 
 
-class Footwear(models.Model):
+class Footwear(PermissionMixin, models.Model):
     brand = models.ForeignKey(Brand, verbose_name=_('brand'), related_name='footwear')
     price = MoneyField(max_digits=6, decimal_places=2, default_currency='GBP')
 
@@ -75,7 +87,7 @@ class Footwear(models.Model):
         return self.__unicode__()
 
 
-class FootwearStyle(models.Model):
+class FootwearStyle(PermissionMixin, models.Model):
     OXFORD = 'OXF'
     DERBY = 'DRB'
     BROGUE = 'BRG'

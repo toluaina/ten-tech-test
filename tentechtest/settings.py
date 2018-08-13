@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'rest_auth',
     'django_filters',
+    'dry_rest_permissions',
     'shop',
 
 )

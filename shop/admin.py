@@ -16,3 +16,8 @@ class HatAdmin(admin.ModelAdmin):
 @admin.register(models.Footwear)
 class FootwearAdmin(admin.ModelAdmin):
     """Footwear admin."""
+
+
+@admin.register(models.FootwearStyle)
+class FootwearStyleAdmin(admin.ModelAdmin):
+    """Footwear style admin."""
