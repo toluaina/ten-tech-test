@@ -48,6 +48,7 @@ class Hat(models.Model):
     class Meta:
         verbose_name = 'Hat'
         verbose_name_plural = 'Hats'
+        ordering = ('price', )
 
     def __unicode__(self):
         if self.brand is None:
@@ -85,6 +86,7 @@ class Footwear(models.Model):
     class Meta:
         verbose_name = 'Footwear'
         verbose_name_plural = 'Footwear'
+        ordering = ('price', )
 
     def __unicode__(self):
         return '{style_of_footwear} by {brand} at {price}'.format(
