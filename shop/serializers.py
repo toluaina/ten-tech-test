@@ -26,6 +26,13 @@ class HatSerializer(serializers.HyperlinkedModelSerializer):
 
     brand_name = serializers.SerializerMethodField()
 
+    style = serializers.CharField(write_only=True, required=True)
+    brand = BrandSerializer(write_only=True, required=True)
+    price = serializers.DecimalField(
+        max_digits=6, decimal_places=2, write_only=True, required=True
+    )
+    colour = serializers.CharField(write_only=True, required=True)
+
     class Meta:
         model = Hat
         fields = '__all__'
