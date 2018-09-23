@@ -22,6 +22,12 @@ class FootwearSerializer(serializers.HyperlinkedModelSerializer):
 class HatSerializer(serializers.HyperlinkedModelSerializer):
     """Hat serializer."""
 
+    brand_name = serializers.SerializerMethodField()
+
     class Meta:
         model = Hat
         fields = '__all__'
+
+    def get_brand_name(self, obj):
+        if obj.brand is not None:
+            return obj.brand.name
