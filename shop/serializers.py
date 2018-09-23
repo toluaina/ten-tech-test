@@ -16,7 +16,7 @@ class FootwearSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Footwear
-        fields = '__all__'
+        exclude = ('style', )
 
 
 class HatSerializer(serializers.HyperlinkedModelSerializer):
