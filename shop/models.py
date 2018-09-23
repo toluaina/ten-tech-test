@@ -7,6 +7,49 @@ from collectionfield.models import CollectionField
 # Create your models here.
 
 
+class Style(models.Model):
+
+    # footwear
+    OXFORD = 'OXF'
+    DERBY = 'DRB'
+    BROGUE = 'BRG'
+    MONK = 'MNK'
+    BALMORAL = 'BML'
+    # hat
+    FEDORA = 'FED'
+    TOP_HAT = 'TOP'
+    TRILBY = 'TBY'
+    PANAMA = 'PNM'
+    FEZ = 'FEZ'
+    CAP = 'CAP'
+
+    STYLES = (
+        (OXFORD, 'Oxford'),
+        (DERBY, 'Derby'),
+        (BROGUE, 'Brogue'),
+        (MONK, 'Monk'),
+        (BALMORAL, 'Balmoral'),
+        (FEDORA, 'Fedora'),
+        (TOP_HAT, 'Top Hat'),
+        (TRILBY, 'Trilby'),
+        (PANAMA, 'Panama'),
+        (FEZ, 'Fez'),
+        (CAP, 'Cap'),
+    )
+
+    name = models.CharField(max_length=3, unique=True)
+
+    class Meta:
+        verbose_name = 'Style'
+        verbose_name_plural = 'Styles'
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.__unicode__()
+
+
 class Brand(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
@@ -23,24 +66,12 @@ class Brand(models.Model):
 
 
 class Hat(models.Model):
-    FEDORA = 'FED'
-    TOP_HAT = 'TOP'
-    TRILBY = 'TBY'
-    PANAMA = 'PNM'
-    FEZ = 'FEZ'
-    CAP = 'CAP'
-    STYLES = (
-        (FEDORA, 'Fedora'),
-        (TOP_HAT, 'Top Hat'),
-        (TRILBY, 'Trilby'),
-        (PANAMA, 'Panama'),
-        (FEZ, 'Fez'),
-        (CAP, 'Cap'),
-    )
-    style = models.CharField(_('style'), max_length=3, choices=STYLES)
-    brand = models.ManyToManyField(
-        Brand, verbose_name=_('brand'), related_name='hats', blank=True,
+    style = models.ForeignKey(
+        Style, verbose_name=_('style'), related_name='hats', blank=True,
         null=True
+    )
+    brand = models.ManyToManyField(
+        Brand, verbose_name=_('brand'), related_name='hats', blank=True
     )
     price = MoneyField(max_digits=6, decimal_places=2, default_currency='GBP')
     colour = models.CharField(max_length=7, blank=True, null=True)
@@ -51,7 +82,7 @@ class Hat(models.Model):
         ordering = ('price', )
 
     def __unicode__(self):
-        if self.brand is None:
+        if not self.brand:
             return '{style_of_hat} at {price}'.format(
                 style_of_hat=self.style.name,
                 price=self.price,
@@ -67,19 +98,10 @@ class Hat(models.Model):
 
 
 class Footwear(models.Model):
-    OXFORD = 'OXF'
-    DERBY = 'DRB'
-    BROGUE = 'BRG'
-    MONK = 'MNK'
-    BALMORAL = 'BML'
-    STYLES = (
-        (OXFORD, 'Oxford'),
-        (DERBY, 'Derby'),
-        (BROGUE, 'Brogue'),
-        (MONK, 'Monk'),
-        (BALMORAL, 'Balmoral'),
+    style = models.ForeignKey(
+        Style, verbose_name=_('style'), related_name='footwear', blank=True,
+        null=True
     )
-    style = CollectionField(_('style'), choices=STYLES)
     brand = models.ForeignKey(Brand, verbose_name=_('brand'), related_name='footwear')
     price = MoneyField(max_digits=6, decimal_places=2, default_currency='GBP')
 

@@ -2,8 +2,8 @@
 
 from django.core.management.base import BaseCommand
 
-from shop.models import Footwear, Hat
-from shop.tests import BrandFactory, FootwearFactory, HatFactory
+from shop.models import Footwear, Hat, Style
+from shop.tests import BrandFactory, FootwearFactory, HatFactory, StyleFactory
 
 
 class Command(BaseCommand):
@@ -30,15 +30,18 @@ class Command(BaseCommand):
             description="Quality footwear at low low prices.",
         )
 
-        HatFactory(brand=fab_frida, style=Hat.FEDORA)
-        HatFactory(brand=fab_frida, style=Hat.FEZ)
-        HatFactory(brand=decadent_fran, style=Hat.TOP_HAT)
-        HatFactory(brand=decadent_fran, style=Hat.FEZ)
-        HatFactory(brand=decadent_fran, style=Hat.PANAMA)
+        for name, _ in Style.STYLES:
+            StyleFactory(name=name)
 
-        FootwearFactory(brand=decadent_fran, style=Footwear.BALMORAL)
-        FootwearFactory(brand=fancy_dan, style=Footwear.BALMORAL)
-        FootwearFactory(brand=fancy_dan, style=Footwear.MONK)
-        FootwearFactory(brand=fancy_dan, style=Footwear.OXFORD)
-        FootwearFactory(brand=janky_stan, style=Footwear.DERBY)
-        FootwearFactory(brand=janky_stan, style=Footwear.BROGUE)
+        HatFactory(brand=fab_frida, style=StyleFactory(name=Style.FEDORA))
+        HatFactory(brand=fab_frida, style=StyleFactory(name=Style.FEZ))
+        HatFactory(brand=decadent_fran, style=StyleFactory(name=Style.TOP_HAT))
+        HatFactory(brand=decadent_fran, style=StyleFactory(name=Style.FEZ))
+        HatFactory(brand=decadent_fran, style=StyleFactory(name=Style.PANAMA))
+
+        FootwearFactory(brand=decadent_fran, style=StyleFactory(name=Style.BALMORAL))
+        FootwearFactory(brand=fancy_dan, style=StyleFactory(name=Style.BALMORAL))
+        FootwearFactory(brand=fancy_dan, style=StyleFactory(name=Style.MONK))
+        FootwearFactory(brand=fancy_dan, style=StyleFactory(name=Style.OXFORD))
+        FootwearFactory(brand=janky_stan, style=StyleFactory(name=Style.DERBY))
+        FootwearFactory(brand=janky_stan, style=StyleFactory(name=Style.BROGUE))

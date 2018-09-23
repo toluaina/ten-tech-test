@@ -10,7 +10,20 @@ from shop.models import (
     Brand,
     Footwear,
     Hat,
+    Style
 )
+
+
+class StyleFactory(DjangoModelFactory):
+    """Factory for styles."""
+
+    name = FuzzyChoice(
+        (style[0] for style in Style.STYLES)
+    )
+
+    class Meta:
+        model = Style
+        django_get_or_create = ('name',)
 
 
 class BrandFactory(DjangoModelFactory):
@@ -25,9 +38,7 @@ class BrandFactory(DjangoModelFactory):
 class FootwearFactory(DjangoModelFactory):
     """Factory for hats."""
 
-    style = FuzzyChoice(
-        (footwear_style[0] for footwear_style in Footwear.STYLES)
-    )
+    style = factory.SubFactory(StyleFactory)
     brand = factory.SubFactory(BrandFactory)
 
     class Meta:
@@ -42,9 +53,7 @@ class FootwearFactory(DjangoModelFactory):
 class HatFactory(DjangoModelFactory):
     """Factory for hats."""
 
-    style = FuzzyChoice(
-        (hat_style[0] for hat_style in Hat.STYLES)
-    )
+    style = factory.SubFactory(StyleFactory)
     brand = factory.SubFactory(BrandFactory)
 
     class Meta:
