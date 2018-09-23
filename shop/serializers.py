@@ -14,6 +14,8 @@ class BrandSerializer(serializers.HyperlinkedModelSerializer):
 class FootwearSerializer(serializers.HyperlinkedModelSerializer):
     """Footwear serializer."""
 
+    brand = BrandSerializer(read_only=True, required=False)
+
     class Meta:
         model = Footwear
         exclude = ('style', )
