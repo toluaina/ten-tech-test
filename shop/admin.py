@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from django.contrib.contenttypes.admin import GenericTabularInline
 from . import models
 
 
@@ -21,3 +21,15 @@ class FootwearAdmin(admin.ModelAdmin):
 @admin.register(models.Style)
 class StyleAdmin(admin.ModelAdmin):
     """Style admin."""
+
+
+class ItemInline(GenericTabularInline):
+    model = models.Item
+
+
+@admin.register(models.Basket)
+class BasketAdmin(admin.ModelAdmin):
+    """Basket admin."""
+    inlines = [
+        ItemInline,
+    ]

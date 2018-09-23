@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from shop.models import Brand, Footwear, Hat, Style
+from shop.models import Brand, Footwear, Hat, Style, Basket, Item
 
 
 class BrandSerializer(serializers.HyperlinkedModelSerializer):
@@ -48,3 +48,22 @@ class StyleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Style
         fields = '__all__'
+
+
+class ItemSerializer(serializers.HyperlinkedModelSerializer):
+    """Item serializer."""
+    object_type = serializers.CharField(
+        read_only=True, source='content_type.model'
+    )
+
+    class Meta:
+        model = Item
+        fields = '__all__'
+
+
+class BasketSerializer(serializers.HyperlinkedModelSerializer):
+    items = ItemSerializer(many=True)
+
+    class Meta:
+        model = Basket
+        fields = ('items',)

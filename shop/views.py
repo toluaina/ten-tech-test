@@ -1,7 +1,9 @@
 from rest_framework.viewsets import ModelViewSet
 
-from shop.models import Brand, Footwear, Hat
-from shop.serializers import BrandSerializer, FootwearSerializer, HatSerializer
+from shop.models import Brand, Footwear, Hat, Basket
+from shop.serializers import (
+    BrandSerializer, FootwearSerializer, HatSerializer, BasketSerializer
+)
 from shop import permissions
 
 
@@ -27,3 +29,14 @@ class HatViewSet(ModelViewSet):
     queryset = Hat.objects.all()
     serializer_class = HatSerializer
     permission_classes = (permissions.CanCreateUpdateDestroyHat,)
+
+
+class BasketViewSet(ModelViewSet):
+    """Basket views everything included."""
+
+    queryset = Basket.objects.all()
+    serializer_class = BasketSerializer
+
+    def get_object(self):
+        self.kwargs['pk'] = int(self.kwargs.get('pk', self.request.user.pk))
+        return super().get_object()

@@ -3,6 +3,11 @@ from django.utils.translation import ugettext_lazy as _
 
 from djmoney.models.fields import MoneyField
 from collectionfield.models import CollectionField
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
+from django.db.models import Sum
 
 # Create your models here.
 
@@ -119,3 +124,68 @@ class Footwear(models.Model):
 
     def __str__(self):
         return self.__unicode__()
+
+
+class Item(models.Model):
+
+    quantity = models.PositiveIntegerField(verbose_name=_('quantity'))
+    limit = models.Q(app_label='shop', model='hat') | models.Q(app_label='shop', model='footwear')
+    content_type = models.ForeignKey(
+        ContentType, related_name='items', on_delete=models.CASCADE,
+        limit_choices_to=limit
+    )
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+
+class Basket(models.Model):
+    owner = models.ForeignKey(User)
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+    checkout_date = models.DateTimeField()
+    items = GenericRelation(Item)
+
+    class Meta:
+        verbose_name = 'Basket'
+        verbose_name_plural = 'Basket'
+
+    def __unicode__(self):
+        return 'Basket for {first_name}{last_name} total {total_price}'.format(
+            first_name=self.owner.first_name,
+            last_name=self.owner.last_name,
+            total_price=self.total_price
+        )
+
+    @property
+    def total_price(self):
+        return (
+            Item.objects.filter(
+                basket_id=self.pk
+            ).aggregate(Sum('price'))
+        )
+
+    @property
+    def hats_price(self):
+        content_type = ContentType.objects.get_for_model(Hat)
+        return (
+            Item.objects.filter(
+                basket_id=self.pk,
+                content_type=content_type
+            ).aggregate(Sum('price'))
+        )
+
+    @property
+    def footwear_price(self):
+        content_type = ContentType.objects.get_for_model(Footwear)
+        return (
+            Item.objects.filter(
+                basket_id=self.pk,
+                content_type=content_type
+            ).aggregate(Sum('price'))
+        )
+
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(ban__isnull=True)
+
