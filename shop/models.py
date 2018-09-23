@@ -35,7 +35,10 @@ class Hat(models.Model):
         (FEZ, 'Fez'),
     )
     style = models.CharField(_('style'), max_length=3, choices=STYLES)
-    brand = models.ForeignKey(Brand, verbose_name=_('brand'), related_name='hats')
+    brand = models.ManyToManyField(
+        Brand, verbose_name=_('brand'), related_name='hats', blank=True,
+        null=True
+    )
     price = MoneyField(max_digits=6, decimal_places=2, default_currency='GBP')
     colour = models.CharField(max_length=7, blank=True, null=True)
 
@@ -44,6 +47,11 @@ class Hat(models.Model):
         verbose_name_plural = 'Hats'
 
     def __unicode__(self):
+        if self.brand is None:
+            return '{style_of_hat} at {price}'.format(
+                style_of_hat=self.style.name,
+                price=self.price,
+            )
         return '{style_of_hat} by {brand} at {price}'.format(
             style_of_hat=self.style,
             brand=self.brand.name,
