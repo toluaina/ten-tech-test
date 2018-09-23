@@ -23,3 +23,4 @@ text-unidecode==1.2
 uritemplate==3.0.0
 Werkzeug==0.14.1
 django-rest-auth==0.9.3
+django-collectionfield==0.0.4

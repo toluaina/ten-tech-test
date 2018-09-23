@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from djmoney.models.fields import MoneyField
+from collectionfield.models import CollectionField
 
 # Create your models here.
 
@@ -77,7 +78,7 @@ class Footwear(models.Model):
         (MONK, 'Monk'),
         (BALMORAL, 'Balmoral'),
     )
-    style = models.CharField(_('style'), max_length=3, choices=STYLES)
+    style = CollectionField(_('style'), choices=STYLES)
     brand = models.ForeignKey(Brand, verbose_name=_('brand'), related_name='footwear')
     price = MoneyField(max_digits=6, decimal_places=2, default_currency='GBP')
 
