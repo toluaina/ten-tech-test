@@ -2,6 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from shop.models import Brand, Footwear, Hat
 from shop.serializers import BrandSerializer, FootwearSerializer, HatSerializer
+from shop import permissions
 
 
 class BrandViewSet(ModelViewSet):
@@ -9,6 +10,7 @@ class BrandViewSet(ModelViewSet):
 
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
+    permission_classes = (permissions.CanCreateUpdateDestroyBrand,)
 
 
 class FootwearViewSet(ModelViewSet):
@@ -16,6 +18,7 @@ class FootwearViewSet(ModelViewSet):
 
     queryset = Footwear.objects.all()
     serializer_class = FootwearSerializer
+    permission_classes = (permissions.CanCreateUpdateDestroyFootwear,)
 
 
 class HatViewSet(ModelViewSet):
@@ -23,3 +26,4 @@ class HatViewSet(ModelViewSet):
 
     queryset = Hat.objects.all()
     serializer_class = HatSerializer
+    permission_classes = (permissions.CanCreateUpdateDestroyHat,)
